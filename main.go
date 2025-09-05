@@ -35,6 +35,11 @@ var rootSuggestions = []prompt.Suggest{
 	{Text: "servers", Description: "Get server list"},
 	{Text: "server", Description: "Get specific server info, usage: server <name>"},
 	{Text: "server-rtt", Description: "Test server RTT, usage: server-rtt <name>"},
+	{Text: "dns-cache", Description: "Get DNS cache list"},
+	{Text: "dns-clear", Description: "Clear DNS cache"},
+	{Text: "records", Description: "Get connection records list"},
+	{Text: "records-clear", Description: "Clear connection records"},
+	{Text: "connections", Description: "Get current connections list"},
 	{Text: "cd", Description: "Change directory, usage: cd <path>"},
 	{Text: "ll", Description: "List current directory contents"},
 	{Text: "pwd", Description: "Print working directory"},
@@ -236,6 +241,34 @@ func executor(input string) {
 		if err := apiClient.TestServerRTT(args[1]); err != nil {
 			fmt.Printf("Error: %v\n", err)
 		}
+	case "dns":
+		filter := ""
+		if len(args) > 2 && args[1] == "|" {
+			filter = args[2]
+		}
+		if err := apiClient.GetDNSCache(filter); err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
+	case "dns-clear":
+		if err := apiClient.ClearDNSCache(); err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
+	case "records":
+		filter := ""
+		if len(args) > 2 && args[1] == "|" {
+			filter = args[2]
+		}
+		if err := apiClient.GetRecords(filter); err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
+	case "records-clear":
+		if err := apiClient.ClearRecords(); err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
+	case "connections":
+		if err := apiClient.GetConnections(); err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
 	case "groups":
 		if err := apiClient.GetGroups(); err != nil {
 			fmt.Printf("Error: %v\n", err)
@@ -287,7 +320,7 @@ func handleListCommand() {
 		fmt.Println("Available directories:")
 		fmt.Println("  groups/")
 		fmt.Println("\nAvailable commands:")
-		fmt.Println("  status, inbounds, reload, servers")
+		fmt.Println("  status, inbounds, reload, servers, dns-cache, dns-clear, records, records-clear, connections")
 	case "groups":
 		if err := apiClient.GetGroups(); err != nil {
 			fmt.Printf("Error: %v\n", err)
@@ -315,6 +348,11 @@ func showHelp() {
 		fmt.Println("  servers               - Get server list")
 		fmt.Println("  server <name>         - Get specific server info")
 		fmt.Println("  server-rtt <name>     - Test server RTT")
+		fmt.Println("  dns-cache             - Get DNS cache list")
+		fmt.Println("  dns-clear             - Clear DNS cache")
+		fmt.Println("  records               - Get connection records list")
+		fmt.Println("  records-clear         - Clear connection records")
+		fmt.Println("  connections           - Get current connections list")
 		fmt.Println("\nAvailable directories:")
 		fmt.Println("  groups/               - Server groups management")
 	case "groups":

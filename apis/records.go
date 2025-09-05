@@ -2,27 +2,16 @@ package apis
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/sipt/shuttle/controller/model"
+
+	apipkg "github.com/sipt/shuttle/events/record"
 )
 
-// Record connection record structure
-type Record struct {
-	ID        int64  `json:"id"`
-	DestAddr  string `json:"dest_addr"`
-	Policy    string `json:"policy"`
-	Up        int64  `json:"up"`
-	Down      int64  `json:"down"`
-	Status    string `json:"status"`
-	Timestamp int64  `json:"timestamp"`
-	Protocol  string `json:"protocol"`
-	Duration  int64  `json:"duration"`
-	Dumped    bool   `json:"dumped"`
-}
-
 // GetRecords gets connection records list
-func (c *APIClient) GetRecords() error {
-	result := &model.Response[[]Record]{}
+func (c *APIClient) GetRecords(filter string) error {
+	result := &model.Response[[]apipkg.RecordEntity]{}
 	resp, err := c.client.R().
 		SetResult(result).
 		Get("/api/records")
@@ -45,18 +34,16 @@ func (c *APIClient) GetRecords() error {
 		return nil
 	}
 
-	fmt.Printf("%-6s %-25s %-8s %-10s %-10s %-12s %-8s %-8s %-6s\n",
-		"ID", "Destination", "Policy", "Upload", "Download", "Status", "Protocol", "Duration", "Dumped")
-	fmt.Println("----------------------------------------------------------------------------------------")
+	fmt.Printf("%-6s %-50s %-30s %-10s %-10s %-12s %-8s\n",
+		"ID", "Destination", "Policy", "Upload", "Download", "Status", "Protocol")
+	fmt.Println("---------------------------------------------------------------------------------------------------------------")
 
 	for _, record := range result.Data {
-		duration := fmt.Sprintf("%dms", record.Duration)
-		dumped := "No"
-		if record.Dumped {
-			dumped = "Yes"
+		if filter != "" && !strings.Contains(record.DestAddr, filter) {
+			continue
 		}
 
-		fmt.Printf("%-6d %-25s %-8s %-10s %-10s %-12s %-8s %-8s %-6s\n",
+		fmt.Printf("%d %-50s %-30s %-10s %-10s %-12s %-8s\n",
 			record.ID,
 			record.DestAddr,
 			record.Policy,
@@ -64,8 +51,6 @@ func (c *APIClient) GetRecords() error {
 			formatBytes(record.Down),
 			record.Status,
 			record.Protocol,
-			duration,
-			dumped,
 		)
 	}
 

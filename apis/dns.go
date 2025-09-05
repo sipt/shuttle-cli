@@ -2,22 +2,16 @@ package apis
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/sipt/shuttle/controller/model"
+
+	apipkg "github.com/sipt/shuttle/dns/api"
 )
 
-// DNSCache DNS cache structure
-type DNSCache struct {
-	Type        string `json:"typ"`
-	Domain      string `json:"domain"`
-	IP          string `json:"ip"`
-	DNSServer   string `json:"dns_server"`
-	CountryCode string `json:"country_code"`
-}
-
 // GetDNSCache gets DNS cache list
-func (c *APIClient) GetDNSCache() error {
-	result := &model.Response[[]DNSCache]{}
+func (c *APIClient) GetDNSCache(filter string) error {
+	result := &model.Response[[]apipkg.DNS]{}
 	resp, err := c.client.R().
 		SetResult(result).
 		Get("/api/dns/cache")
@@ -41,8 +35,11 @@ func (c *APIClient) GetDNSCache() error {
 	}
 
 	for _, cache := range result.Data {
-		fmt.Printf("  %s -> %s (%s) [%s] [%s]\n",
-			cache.Domain, cache.IP, cache.Type, cache.DNSServer, cache.CountryCode)
+		if filter != "" && !strings.Contains(cache.Domain, filter) {
+			continue
+		}
+		fmt.Printf("  %-50s -> %-20s (%s) [%s] [%s]\n",
+			cache.Domain, cache.IP, cache.Typ, cache.DNSServer, cache.CountryCode)
 	}
 
 	return nil
