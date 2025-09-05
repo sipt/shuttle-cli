@@ -76,6 +76,10 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sipt/shuttle v0.0.0-20250904171552-e1e6518b7f5b h1:OktXPoc07lCKbRLFm5u0ALE4jnEKN/Z4L4gSh06ZfKY=
 github.com/sipt/shuttle v0.0.0-20250904171552-e1e6518b7f5b/go.mod h1:r8PNduafanxZGOYiCSJS3fGSb0ipo5r5SNau+9PAQUc=
+github.com/sipt/shuttle v0.0.0-20250905083137-533d63749d6e h1:x2WewXSFV0HhMmX1s2NlDF1ttKH+cPOBx8rXZ0PtkMw=
+github.com/sipt/shuttle v0.0.0-20250905083137-533d63749d6e/go.mod h1:r8PNduafanxZGOYiCSJS3fGSb0ipo5r5SNau+9PAQUc=
+github.com/sipt/shuttle v0.0.0-20250905083725-5e54a992c683 h1:2jS6Z7qU5BCu/P30E10e+MjFIQpWM3KK9Wt7dJQ3I0c=
+github.com/sipt/shuttle v0.0.0-20250905083725-5e54a992c683/go.mod h1:r8PNduafanxZGOYiCSJS3fGSb0ipo5r5SNau+9PAQUc=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

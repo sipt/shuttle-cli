@@ -5,7 +5,7 @@ go 1.24.5
 require (
 	github.com/c-bata/go-prompt v0.2.6
 	github.com/fatih/color v1.18.0
-	github.com/sipt/shuttle v0.0.0-20250904171552-e1e6518b7f5b
+	github.com/sipt/shuttle v0.0.0-20250905083725-5e54a992c683
 	resty.dev/v3 v3.0.0-beta.3
 )
 

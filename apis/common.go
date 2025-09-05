@@ -1,7 +1,7 @@
 package apis
 
 import (
-	"fmt"
+	"time"
 
 	"github.com/fatih/color"
 )
@@ -13,13 +13,13 @@ var (
 	orange = color.RGB(255, 146, 48)
 )
 
-func PrintRtt(rtt string) {
-	switch rtt {
-	case "no rtt", "failed":
-		red.Print(rtt)
+func PrintRtt(rtt int64) {
+	switch {
+	case rtt == 0:
+		red.Print("no rtt")
 		return
-	case "":
-		white.Print("unknown")
+	case rtt < 0:
+		orange.Print("failed")
 		return
 	default:
 	}
@@ -29,14 +29,13 @@ func PrintRtt(rtt string) {
 	// green : rtt<300ms
 	// yellow : 300ms<=rtt<600ms
 	// red : rtt>=600ms
-	rttValue := 0
-	fmt.Sscanf(rtt, "%d", &rttValue)
 
-	if rttValue < 300 {
-		green.Print(rtt)
-	} else if rttValue < 600 {
-		orange.Print(rtt)
+	rttValue := time.Duration(rtt) * time.Millisecond
+	if rtt < 300 {
+		green.Print(rttValue.String())
+	} else if rtt < 600 {
+		orange.Print(rttValue.String())
 	} else {
-		red.Print(rtt)
+		red.Print(rttValue.String())
 	}
 }
